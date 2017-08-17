@@ -5,10 +5,10 @@ module Fluent
 
 	class ContainerFilter < Filter
 		Fluent::Plugin.register_filter('filter_container', self)
-
+		
 		config_param :enable_log, :integer, :default => 0
 		config_param :log_path, :string, :default => '/var/opt/microsoft/omsagent/log/filter_container.log'
-
+		
 		def initialize
 			super
 		end
@@ -16,7 +16,7 @@ module Fluent
 		def configure(conf)
 			super
 			@log = nil
-
+			
 			if @enable_log
 				@log = Logger.new(@log_path, 'weekly')
 				@log.debug {'Starting filter_container plugin'}
@@ -33,7 +33,7 @@ module Fluent
 
 		def filter(tag, time, record)
 			dataType = nil
-
+		
 			record.each do |r|
 				if dataType == nil
 					dataType = case r["ClassName"]
@@ -44,7 +44,7 @@ module Fluent
 					end
 				end
 			end
-
+				
 			wrapper = {
 				"DataType"=>dataType,
 				"IPName"=>"Containers",

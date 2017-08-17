@@ -804,236 +804,70 @@ MI_CONST MI_ClassDecl OMI_BaseResource_rtti =
 /*
 **==============================================================================
 **
-** MSFT_nxOMSContainersProperty
-**
-**==============================================================================
-*/
-
-static MI_CONST MI_Boolean MSFT_nxOMSContainersProperty_Name_Key_qual_value = 1;
-
-static MI_CONST MI_Qualifier MSFT_nxOMSContainersProperty_Name_Key_qual =
-{
-    MI_T("Key"),
-    MI_BOOLEAN,
-    MI_FLAG_DISABLEOVERRIDE|MI_FLAG_TOSUBCLASS,
-    &MSFT_nxOMSContainersProperty_Name_Key_qual_value
-};
-
-static MI_Qualifier MI_CONST* MI_CONST MSFT_nxOMSContainersProperty_Name_quals[] =
-{
-    &MSFT_nxOMSContainersProperty_Name_Key_qual,
-};
-
-/* property MSFT_nxOMSContainersProperty.Name */
-static MI_CONST MI_PropertyDecl MSFT_nxOMSContainersProperty_Name_prop =
-{
-    MI_FLAG_PROPERTY|MI_FLAG_KEY|MI_FLAG_READONLY, /* flags */
-    0x006E6504, /* code */
-    MI_T("Name"), /* name */
-    MSFT_nxOMSContainersProperty_Name_quals, /* qualifiers */
-    MI_COUNT(MSFT_nxOMSContainersProperty_Name_quals), /* numQualifiers */
-    MI_STRING, /* type */
-    NULL, /* className */
-    0, /* subscript */
-    offsetof(MSFT_nxOMSContainersProperty, Name), /* offset */
-    MI_T("MSFT_nxOMSContainersProperty"), /* origin */
-    MI_T("MSFT_nxOMSContainersProperty"), /* propagator */
-    NULL,
-};
-
-static MI_CONST MI_Boolean MSFT_nxOMSContainersProperty_Ensure_Write_qual_value = 1;
-
-static MI_CONST MI_Qualifier MSFT_nxOMSContainersProperty_Ensure_Write_qual =
-{
-    MI_T("Write"),
-    MI_BOOLEAN,
-    MI_FLAG_ENABLEOVERRIDE|MI_FLAG_TOSUBCLASS,
-    &MSFT_nxOMSContainersProperty_Ensure_Write_qual_value
-};
-
-static MI_CONST MI_Char* MSFT_nxOMSContainersProperty_Ensure_ValueMap_qual_data_value[] =
-{
-    MI_T("present"),
-    MI_T("absent"),
-};
-
-static MI_CONST MI_ConstStringA MSFT_nxOMSContainersProperty_Ensure_ValueMap_qual_value =
-{
-    MSFT_nxOMSContainersProperty_Ensure_ValueMap_qual_data_value,
-    MI_COUNT(MSFT_nxOMSContainersProperty_Ensure_ValueMap_qual_data_value),
-};
-
-static MI_CONST MI_Qualifier MSFT_nxOMSContainersProperty_Ensure_ValueMap_qual =
-{
-    MI_T("ValueMap"),
-    MI_STRINGA,
-    MI_FLAG_ENABLEOVERRIDE|MI_FLAG_TOSUBCLASS,
-    &MSFT_nxOMSContainersProperty_Ensure_ValueMap_qual_value
-};
-
-static MI_CONST MI_Char* MSFT_nxOMSContainersProperty_Ensure_Values_qual_data_value[] =
-{
-    MI_T("2"),
-    MI_T("3"),
-};
-
-static MI_CONST MI_ConstStringA MSFT_nxOMSContainersProperty_Ensure_Values_qual_value =
-{
-    MSFT_nxOMSContainersProperty_Ensure_Values_qual_data_value,
-    MI_COUNT(MSFT_nxOMSContainersProperty_Ensure_Values_qual_data_value),
-};
-
-static MI_CONST MI_Qualifier MSFT_nxOMSContainersProperty_Ensure_Values_qual =
-{
-    MI_T("Values"),
-    MI_STRINGA,
-    MI_FLAG_ENABLEOVERRIDE|MI_FLAG_TOSUBCLASS|MI_FLAG_TRANSLATABLE,
-    &MSFT_nxOMSContainersProperty_Ensure_Values_qual_value
-};
-
-static MI_Qualifier MI_CONST* MI_CONST MSFT_nxOMSContainersProperty_Ensure_quals[] =
-{
-    &MSFT_nxOMSContainersProperty_Ensure_Write_qual,
-    &MSFT_nxOMSContainersProperty_Ensure_ValueMap_qual,
-    &MSFT_nxOMSContainersProperty_Ensure_Values_qual,
-};
-
-/* property MSFT_nxOMSContainersProperty.Ensure */
-static MI_CONST MI_PropertyDecl MSFT_nxOMSContainersProperty_Ensure_prop =
-{
-    MI_FLAG_PROPERTY, /* flags */
-    0x00656506, /* code */
-    MI_T("Ensure"), /* name */
-    MSFT_nxOMSContainersProperty_Ensure_quals, /* qualifiers */
-    MI_COUNT(MSFT_nxOMSContainersProperty_Ensure_quals), /* numQualifiers */
-    MI_STRING, /* type */
-    NULL, /* className */
-    0, /* subscript */
-    offsetof(MSFT_nxOMSContainersProperty, Ensure), /* offset */
-    MI_T("MSFT_nxOMSContainersProperty"), /* origin */
-    MI_T("MSFT_nxOMSContainersProperty"), /* propagator */
-    NULL,
-};
-
-static MI_PropertyDecl MI_CONST* MI_CONST MSFT_nxOMSContainersProperty_props[] =
-{
-    &MSFT_nxOMSContainersProperty_Name_prop,
-    &MSFT_nxOMSContainersProperty_Ensure_prop,
-};
-
-static MI_CONST MI_Char* MSFT_nxOMSContainersProperty_ClassVersion_qual_value = MI_T("1.0.0");
-
-static MI_CONST MI_Qualifier MSFT_nxOMSContainersProperty_ClassVersion_qual =
-{
-    MI_T("ClassVersion"),
-    MI_STRING,
-    MI_FLAG_ENABLEOVERRIDE|MI_FLAG_RESTRICTED,
-    &MSFT_nxOMSContainersProperty_ClassVersion_qual_value
-};
-
-static MI_Qualifier MI_CONST* MI_CONST MSFT_nxOMSContainersProperty_quals[] =
-{
-    &MSFT_nxOMSContainersProperty_ClassVersion_qual,
-};
-
-/* class MSFT_nxOMSContainersProperty */
-MI_CONST MI_ClassDecl MSFT_nxOMSContainersProperty_rtti =
-{
-    MI_FLAG_CLASS, /* flags */
-    0x006D7917, /* code */
-    MI_T("MSFT_nxOMSContainersProperty"), /* name */
-    MSFT_nxOMSContainersProperty_quals, /* qualifiers */
-    MI_COUNT(MSFT_nxOMSContainersProperty_quals), /* numQualifiers */
-    MSFT_nxOMSContainersProperty_props, /* properties */
-    MI_COUNT(MSFT_nxOMSContainersProperty_props), /* numProperties */
-    sizeof(MSFT_nxOMSContainersProperty), /* size */
-    NULL, /* superClass */
-    NULL, /* superClassDecl */
-    NULL, /* methods */
-    0, /* numMethods */
-    &schemaDecl, /* schema */
-    NULL, /* functions */
-    NULL /* owningClass */
-};
-
-/*
-**==============================================================================
-**
 ** MSFT_nxOMSContainersResource
 **
 **==============================================================================
 */
 
-static MI_CONST MI_Boolean MSFT_nxOMSContainersResource_Name_Key_qual_value = 1;
+static MI_CONST MI_Boolean MSFT_nxOMSContainersResource_WorkspaceID_Key_qual_value = 1;
 
-static MI_CONST MI_Qualifier MSFT_nxOMSContainersResource_Name_Key_qual =
+static MI_CONST MI_Qualifier MSFT_nxOMSContainersResource_WorkspaceID_Key_qual =
 {
     MI_T("Key"),
     MI_BOOLEAN,
     MI_FLAG_DISABLEOVERRIDE|MI_FLAG_TOSUBCLASS,
-    &MSFT_nxOMSContainersResource_Name_Key_qual_value
+    &MSFT_nxOMSContainersResource_WorkspaceID_Key_qual_value
 };
 
-static MI_Qualifier MI_CONST* MI_CONST MSFT_nxOMSContainersResource_Name_quals[] =
+static MI_Qualifier MI_CONST* MI_CONST MSFT_nxOMSContainersResource_WorkspaceID_quals[] =
 {
-    &MSFT_nxOMSContainersResource_Name_Key_qual,
+    &MSFT_nxOMSContainersResource_WorkspaceID_Key_qual,
 };
 
-/* property MSFT_nxOMSContainersResource.Name */
-static MI_CONST MI_PropertyDecl MSFT_nxOMSContainersResource_Name_prop =
+/* property MSFT_nxOMSContainersResource.WorkspaceID */
+static MI_CONST MI_PropertyDecl MSFT_nxOMSContainersResource_WorkspaceID_prop =
 {
     MI_FLAG_PROPERTY|MI_FLAG_KEY|MI_FLAG_READONLY, /* flags */
-    0x006E6504, /* code */
-    MI_T("Name"), /* name */
-    MSFT_nxOMSContainersResource_Name_quals, /* qualifiers */
-    MI_COUNT(MSFT_nxOMSContainersResource_Name_quals), /* numQualifiers */
+    0x0077640B, /* code */
+    MI_T("WorkspaceID"), /* name */
+    MSFT_nxOMSContainersResource_WorkspaceID_quals, /* qualifiers */
+    MI_COUNT(MSFT_nxOMSContainersResource_WorkspaceID_quals), /* numQualifiers */
     MI_STRING, /* type */
     NULL, /* className */
     0, /* subscript */
-    offsetof(MSFT_nxOMSContainersResource, Name), /* offset */
+    offsetof(MSFT_nxOMSContainersResource, WorkspaceID), /* offset */
     MI_T("MSFT_nxOMSContainersResource"), /* origin */
     MI_T("MSFT_nxOMSContainersResource"), /* propagator */
     NULL,
 };
 
-static MI_CONST MI_Boolean MSFT_nxOMSContainersResource_Properties_Write_qual_value = 1;
+static MI_CONST MI_Boolean MSFT_nxOMSContainersResource_Ensure_Key_qual_value = 1;
 
-static MI_CONST MI_Qualifier MSFT_nxOMSContainersResource_Properties_Write_qual =
+static MI_CONST MI_Qualifier MSFT_nxOMSContainersResource_Ensure_Key_qual =
 {
-    MI_T("Write"),
+    MI_T("Key"),
     MI_BOOLEAN,
-    MI_FLAG_ENABLEOVERRIDE|MI_FLAG_TOSUBCLASS,
-    &MSFT_nxOMSContainersResource_Properties_Write_qual_value
+    MI_FLAG_DISABLEOVERRIDE|MI_FLAG_TOSUBCLASS,
+    &MSFT_nxOMSContainersResource_Ensure_Key_qual_value
 };
 
-static MI_CONST MI_Char* MSFT_nxOMSContainersResource_Properties_EmbeddedInstance_qual_value = MI_T("MSFT_nxOMSContainersProperty");
-
-static MI_CONST MI_Qualifier MSFT_nxOMSContainersResource_Properties_EmbeddedInstance_qual =
+static MI_Qualifier MI_CONST* MI_CONST MSFT_nxOMSContainersResource_Ensure_quals[] =
 {
-    MI_T("EmbeddedInstance"),
-    MI_STRING,
-    MI_FLAG_TOSUBCLASS,
-    &MSFT_nxOMSContainersResource_Properties_EmbeddedInstance_qual_value
+    &MSFT_nxOMSContainersResource_Ensure_Key_qual,
 };
 
-static MI_Qualifier MI_CONST* MI_CONST MSFT_nxOMSContainersResource_Properties_quals[] =
+/* property MSFT_nxOMSContainersResource.Ensure */
+static MI_CONST MI_PropertyDecl MSFT_nxOMSContainersResource_Ensure_prop =
 {
-    &MSFT_nxOMSContainersResource_Properties_Write_qual,
-    &MSFT_nxOMSContainersResource_Properties_EmbeddedInstance_qual,
-};
-
-/* property MSFT_nxOMSContainersResource.Properties */
-static MI_CONST MI_PropertyDecl MSFT_nxOMSContainersResource_Properties_prop =
-{
-    MI_FLAG_PROPERTY, /* flags */
-    0x0070730A, /* code */
-    MI_T("Properties"), /* name */
-    MSFT_nxOMSContainersResource_Properties_quals, /* qualifiers */
-    MI_COUNT(MSFT_nxOMSContainersResource_Properties_quals), /* numQualifiers */
-    MI_INSTANCEA, /* type */
-    MI_T("MSFT_nxOMSContainersProperty"), /* className */
+    MI_FLAG_PROPERTY|MI_FLAG_KEY|MI_FLAG_READONLY, /* flags */
+    0x00656506, /* code */
+    MI_T("Ensure"), /* name */
+    MSFT_nxOMSContainersResource_Ensure_quals, /* qualifiers */
+    MI_COUNT(MSFT_nxOMSContainersResource_Ensure_quals), /* numQualifiers */
+    MI_STRING, /* type */
+    NULL, /* className */
     0, /* subscript */
-    offsetof(MSFT_nxOMSContainersResource, Properties), /* offset */
+    offsetof(MSFT_nxOMSContainersResource, Ensure), /* offset */
     MI_T("MSFT_nxOMSContainersResource"), /* origin */
     MI_T("MSFT_nxOMSContainersResource"), /* propagator */
     NULL,
@@ -1041,8 +875,8 @@ static MI_CONST MI_PropertyDecl MSFT_nxOMSContainersResource_Properties_prop =
 
 static MI_PropertyDecl MI_CONST* MI_CONST MSFT_nxOMSContainersResource_props[] =
 {
-    &MSFT_nxOMSContainersResource_Name_prop,
-    &MSFT_nxOMSContainersResource_Properties_prop,
+    &MSFT_nxOMSContainersResource_WorkspaceID_prop,
+    &MSFT_nxOMSContainersResource_Ensure_prop,
 };
 
 static MI_CONST MI_Boolean MSFT_nxOMSContainersResource_GetTargetResource_Static_qual_value = 1;
@@ -1055,7 +889,7 @@ static MI_CONST MI_Qualifier MSFT_nxOMSContainersResource_GetTargetResource_Stat
     &MSFT_nxOMSContainersResource_GetTargetResource_Static_qual_value
 };
 
-static MI_CONST MI_Char* MSFT_nxOMSContainersResource_GetTargetResource_Description_qual_value = MI_T("4");
+static MI_CONST MI_Char* MSFT_nxOMSContainersResource_GetTargetResource_Description_qual_value = MI_T("2");
 
 static MI_CONST MI_Qualifier MSFT_nxOMSContainersResource_GetTargetResource_Description_qual =
 {
@@ -1091,7 +925,7 @@ static MI_CONST MI_Qualifier MSFT_nxOMSContainersResource_GetTargetResource_Inpu
     &MSFT_nxOMSContainersResource_GetTargetResource_InputResource_EmbeddedInstance_qual_value
 };
 
-static MI_CONST MI_Char* MSFT_nxOMSContainersResource_GetTargetResource_InputResource_Description_qual_value = MI_T("5");
+static MI_CONST MI_Char* MSFT_nxOMSContainersResource_GetTargetResource_InputResource_Description_qual_value = MI_T("3");
 
 static MI_CONST MI_Qualifier MSFT_nxOMSContainersResource_GetTargetResource_InputResource_Description_qual =
 {
@@ -1132,7 +966,7 @@ static MI_CONST MI_Qualifier MSFT_nxOMSContainersResource_GetTargetResource_Flag
     &MSFT_nxOMSContainersResource_GetTargetResource_Flags_In_qual_value
 };
 
-static MI_CONST MI_Char* MSFT_nxOMSContainersResource_GetTargetResource_Flags_Description_qual_value = MI_T("6");
+static MI_CONST MI_Char* MSFT_nxOMSContainersResource_GetTargetResource_Flags_Description_qual_value = MI_T("4");
 
 static MI_CONST MI_Qualifier MSFT_nxOMSContainersResource_GetTargetResource_Flags_Description_qual =
 {
@@ -1182,7 +1016,7 @@ static MI_CONST MI_Qualifier MSFT_nxOMSContainersResource_GetTargetResource_Outp
     &MSFT_nxOMSContainersResource_GetTargetResource_OutputResource_EmbeddedInstance_qual_value
 };
 
-static MI_CONST MI_Char* MSFT_nxOMSContainersResource_GetTargetResource_OutputResource_Description_qual_value = MI_T("7");
+static MI_CONST MI_Char* MSFT_nxOMSContainersResource_GetTargetResource_OutputResource_Description_qual_value = MI_T("5");
 
 static MI_CONST MI_Qualifier MSFT_nxOMSContainersResource_GetTargetResource_OutputResource_Description_qual =
 {
@@ -1223,7 +1057,7 @@ static MI_CONST MI_Qualifier MSFT_nxOMSContainersResource_GetTargetResource_MIRe
     &MSFT_nxOMSContainersResource_GetTargetResource_MIReturn_Static_qual_value
 };
 
-static MI_CONST MI_Char* MSFT_nxOMSContainersResource_GetTargetResource_MIReturn_Description_qual_value = MI_T("4");
+static MI_CONST MI_Char* MSFT_nxOMSContainersResource_GetTargetResource_MIReturn_Description_qual_value = MI_T("2");
 
 static MI_CONST MI_Qualifier MSFT_nxOMSContainersResource_GetTargetResource_MIReturn_Description_qual =
 {
@@ -1289,7 +1123,7 @@ static MI_CONST MI_Qualifier MSFT_nxOMSContainersResource_TestTargetResource_Sta
     &MSFT_nxOMSContainersResource_TestTargetResource_Static_qual_value
 };
 
-static MI_CONST MI_Char* MSFT_nxOMSContainersResource_TestTargetResource_Description_qual_value = MI_T("8");
+static MI_CONST MI_Char* MSFT_nxOMSContainersResource_TestTargetResource_Description_qual_value = MI_T("6");
 
 static MI_CONST MI_Qualifier MSFT_nxOMSContainersResource_TestTargetResource_Description_qual =
 {
@@ -1325,7 +1159,7 @@ static MI_CONST MI_Qualifier MSFT_nxOMSContainersResource_TestTargetResource_Inp
     &MSFT_nxOMSContainersResource_TestTargetResource_InputResource_EmbeddedInstance_qual_value
 };
 
-static MI_CONST MI_Char* MSFT_nxOMSContainersResource_TestTargetResource_InputResource_Description_qual_value = MI_T("9");
+static MI_CONST MI_Char* MSFT_nxOMSContainersResource_TestTargetResource_InputResource_Description_qual_value = MI_T("7");
 
 static MI_CONST MI_Qualifier MSFT_nxOMSContainersResource_TestTargetResource_InputResource_Description_qual =
 {
@@ -1366,7 +1200,7 @@ static MI_CONST MI_Qualifier MSFT_nxOMSContainersResource_TestTargetResource_Fla
     &MSFT_nxOMSContainersResource_TestTargetResource_Flags_In_qual_value
 };
 
-static MI_CONST MI_Char* MSFT_nxOMSContainersResource_TestTargetResource_Flags_Description_qual_value = MI_T("10");
+static MI_CONST MI_Char* MSFT_nxOMSContainersResource_TestTargetResource_Flags_Description_qual_value = MI_T("8");
 
 static MI_CONST MI_Qualifier MSFT_nxOMSContainersResource_TestTargetResource_Flags_Description_qual =
 {
@@ -1406,7 +1240,7 @@ static MI_CONST MI_Qualifier MSFT_nxOMSContainersResource_TestTargetResource_Res
     &MSFT_nxOMSContainersResource_TestTargetResource_Result_Out_qual_value
 };
 
-static MI_CONST MI_Char* MSFT_nxOMSContainersResource_TestTargetResource_Result_Description_qual_value = MI_T("11");
+static MI_CONST MI_Char* MSFT_nxOMSContainersResource_TestTargetResource_Result_Description_qual_value = MI_T("9");
 
 static MI_CONST MI_Qualifier MSFT_nxOMSContainersResource_TestTargetResource_Result_Description_qual =
 {
@@ -1446,7 +1280,7 @@ static MI_CONST MI_Qualifier MSFT_nxOMSContainersResource_TestTargetResource_Pro
     &MSFT_nxOMSContainersResource_TestTargetResource_ProviderContext_Out_qual_value
 };
 
-static MI_CONST MI_Char* MSFT_nxOMSContainersResource_TestTargetResource_ProviderContext_Description_qual_value = MI_T("12");
+static MI_CONST MI_Char* MSFT_nxOMSContainersResource_TestTargetResource_ProviderContext_Description_qual_value = MI_T("10");
 
 static MI_CONST MI_Qualifier MSFT_nxOMSContainersResource_TestTargetResource_ProviderContext_Description_qual =
 {
@@ -1486,7 +1320,7 @@ static MI_CONST MI_Qualifier MSFT_nxOMSContainersResource_TestTargetResource_MIR
     &MSFT_nxOMSContainersResource_TestTargetResource_MIReturn_Static_qual_value
 };
 
-static MI_CONST MI_Char* MSFT_nxOMSContainersResource_TestTargetResource_MIReturn_Description_qual_value = MI_T("8");
+static MI_CONST MI_Char* MSFT_nxOMSContainersResource_TestTargetResource_MIReturn_Description_qual_value = MI_T("6");
 
 static MI_CONST MI_Qualifier MSFT_nxOMSContainersResource_TestTargetResource_MIReturn_Description_qual =
 {
@@ -1553,7 +1387,7 @@ static MI_CONST MI_Qualifier MSFT_nxOMSContainersResource_SetTargetResource_Stat
     &MSFT_nxOMSContainersResource_SetTargetResource_Static_qual_value
 };
 
-static MI_CONST MI_Char* MSFT_nxOMSContainersResource_SetTargetResource_Description_qual_value = MI_T("13");
+static MI_CONST MI_Char* MSFT_nxOMSContainersResource_SetTargetResource_Description_qual_value = MI_T("11");
 
 static MI_CONST MI_Qualifier MSFT_nxOMSContainersResource_SetTargetResource_Description_qual =
 {
@@ -1589,7 +1423,7 @@ static MI_CONST MI_Qualifier MSFT_nxOMSContainersResource_SetTargetResource_Inpu
     &MSFT_nxOMSContainersResource_SetTargetResource_InputResource_EmbeddedInstance_qual_value
 };
 
-static MI_CONST MI_Char* MSFT_nxOMSContainersResource_SetTargetResource_InputResource_Description_qual_value = MI_T("9");
+static MI_CONST MI_Char* MSFT_nxOMSContainersResource_SetTargetResource_InputResource_Description_qual_value = MI_T("7");
 
 static MI_CONST MI_Qualifier MSFT_nxOMSContainersResource_SetTargetResource_InputResource_Description_qual =
 {
@@ -1630,7 +1464,7 @@ static MI_CONST MI_Qualifier MSFT_nxOMSContainersResource_SetTargetResource_Prov
     &MSFT_nxOMSContainersResource_SetTargetResource_ProviderContext_In_qual_value
 };
 
-static MI_CONST MI_Char* MSFT_nxOMSContainersResource_SetTargetResource_ProviderContext_Description_qual_value = MI_T("14");
+static MI_CONST MI_Char* MSFT_nxOMSContainersResource_SetTargetResource_ProviderContext_Description_qual_value = MI_T("12");
 
 static MI_CONST MI_Qualifier MSFT_nxOMSContainersResource_SetTargetResource_ProviderContext_Description_qual =
 {
@@ -1670,7 +1504,7 @@ static MI_CONST MI_Qualifier MSFT_nxOMSContainersResource_SetTargetResource_Flag
     &MSFT_nxOMSContainersResource_SetTargetResource_Flags_In_qual_value
 };
 
-static MI_CONST MI_Char* MSFT_nxOMSContainersResource_SetTargetResource_Flags_Description_qual_value = MI_T("10");
+static MI_CONST MI_Char* MSFT_nxOMSContainersResource_SetTargetResource_Flags_Description_qual_value = MI_T("8");
 
 static MI_CONST MI_Qualifier MSFT_nxOMSContainersResource_SetTargetResource_Flags_Description_qual =
 {
@@ -1710,7 +1544,7 @@ static MI_CONST MI_Qualifier MSFT_nxOMSContainersResource_SetTargetResource_MIRe
     &MSFT_nxOMSContainersResource_SetTargetResource_MIReturn_Static_qual_value
 };
 
-static MI_CONST MI_Char* MSFT_nxOMSContainersResource_SetTargetResource_MIReturn_Description_qual_value = MI_T("13");
+static MI_CONST MI_Char* MSFT_nxOMSContainersResource_SetTargetResource_MIReturn_Description_qual_value = MI_T("11");
 
 static MI_CONST MI_Qualifier MSFT_nxOMSContainersResource_SetTargetResource_MIReturn_Description_qual =
 {
@@ -1821,7 +1655,7 @@ static MI_Qualifier MI_CONST* MI_CONST MSFT_nxOMSContainersResource_quals[] =
 MI_CONST MI_ClassDecl MSFT_nxOMSContainersResource_rtti =
 {
     MI_FLAG_CLASS, /* flags */
-    0x006D6517, /* code */
+    0x006D651C, /* code */
     MI_T("MSFT_nxOMSContainersResource"), /* name */
     MSFT_nxOMSContainersResource_quals, /* qualifiers */
     MI_COUNT(MSFT_nxOMSContainersResource_quals), /* numQualifiers */
@@ -1856,7 +1690,6 @@ MI_Server* __mi_server;
 
 static MI_ClassDecl MI_CONST* MI_CONST classes[] =
 {
-    &MSFT_nxOMSContainersProperty_rtti,
     &MSFT_nxOMSContainersResource_rtti,
     &OMI_BaseResource_rtti,
 };
