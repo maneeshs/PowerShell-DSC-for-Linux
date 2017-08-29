@@ -101,7 +101,6 @@ PROVIDERS+=nxMySqlUser
 PROVIDERS+=nxAvailableUpdates
 PROVIDERS+=nxFileInventory
 PROVIDERS+=nxOMSAutomationWorker
-PROVIDERS+=nxOMSContainers
 endif
 
 # this is used to enable the printing of xml style tags for help in debugging

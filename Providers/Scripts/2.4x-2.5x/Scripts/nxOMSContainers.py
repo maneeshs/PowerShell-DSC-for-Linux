@@ -3,8 +3,6 @@
 # Copyright (C) Microsoft Corporation, All rights reserved.
 #============================================================================
 
-from contextlib import contextmanager
-
 import os
 import sys
 import imp
@@ -28,6 +26,13 @@ LIB_PATH = '/opt/microsoft/docker-cimprov/lib'
 YAML_PATH = '/var/opt/microsoft/docker-cimprov/state'
 STATE_DIR_PATH = '/var/opt/microsoft/omsagent/<WorkspaceID>/state'
 
+PLUGIN_DIR = os.path.join(MODULE_RESOURCE_DIR, "plugin")
+CONF_DIR = os.path.join(MODULE_RESOURCE_DIR, "conf")
+REG_DIR = os.path.join(MODULE_RESOURCE_DIR, "reg")
+LIB_DIR = os.path.join(MODULE_RESOURCE_DIR, "lib")
+YAML_DIR = os.path.join(MODULE_RESOURCE_DIR, "yaml")
+
+
 class IOMSAgent:
     def restart_oms_agent(self):
         pass
@@ -37,10 +42,10 @@ class OMSAgentUtil(IOMSAgent):
         wsId = WorkspaceID
         if wsId is None:
             wsId = ''
-        if os.system('sudo /opt/microsoft/omsagent/bin/service_control restart %s' %(wsId)) == 0:
+        if os.system('sudo /opt/microsoft/omsagent/bin/service_control restart ' + wsId) == 0:
             return True
         else:
-            LOG_ACTION.log(LogType.Error, 'Error restarting omsagent for workspace ' + wsId)
+            LG().Log('ERROR', 'Error restarting omsagent for workspace ' + wsId)
             return False
 
 class TestOMSAgent(IOMSAgent):
@@ -49,23 +54,22 @@ class TestOMSAgent(IOMSAgent):
 
 OMS_ACTION = OMSAgentUtil()
 
-def Set_Marshall(WorkspaceID,Ensure):
+def init_vars(WorkspaceID = '', Ensure = ''):
     global CONF_PATH
     WorkspaceID = WorkspaceID.encode('ascii', 'ignore')
-    CONF_PATH = CONF_PATH.replace('<WorkspaceID>',WorkspaceID)
     Ensure = Ensure.encode('ascii', 'ignore')
+    CONF_PATH = CONF_PATH.replace('<WorkspaceID>',WorkspaceID)
+
+def Set_Marshall(WorkspaceID, Ensure):
+    init_vars(WorkspaceID, Ensure)
     return Set(WorkspaceID, Ensure)
 
-def Test_Marshall(WorkspaceID,Ensure):
-    global CONF_PATH
-    WorkspaceID = WorkspaceID.encode('ascii', 'ignore')
-    Ensure = Ensure.encode('ascii', 'ignore')
-    CONF_PATH = CONF_PATH.replace('<WorkspaceID>',WorkspaceID)
+def Test_Marshall(WorkspaceID, Ensure):
+    init_vars(WorkspaceID, Ensure)
     return Test(WorkspaceID, Ensure)
 
-def Get_Marshall(WorkspaceID,Ensure):
-    WorkspaceID = WorkspaceID.encode('ascii', 'ignore')
-    Ensure = Ensure.encode('ascii', 'ignore')
+def Get_Marshall(WorkspaceID, Ensure):
+    init_vars(WorkspaceID, Ensure)
 
     retval = 0
     retd = dict()
@@ -73,24 +77,18 @@ def Get_Marshall(WorkspaceID,Ensure):
     retd['Ensure'] = Ensure
     return retval, retd
  
-def Set(WorkspaceID,Ensure):
-    plugin_dir = os.path.join(MODULE_RESOURCE_DIR, "plugin")
-    conf_dir = os.path.join(MODULE_RESOURCE_DIR, "conf")
-    lib_dir = os.path.join(MODULE_RESOURCE_DIR, "lib")
-    reg_dir = os.path.join(MODULE_RESOURCE_DIR, "reg")
-    yaml_dir = os.path.join(MODULE_RESOURCE_DIR, "yaml")
-
+def Set(WorkspaceID, Ensure):
     if Ensure == 'Present':
         # copy all the required files to the client machine
-        copy_all_files(conf_dir, CONF_PATH)
+        copy_all_files(CONF_DIR, CONF_PATH)
         update_state_dir_path(os.path.join(CONF_PATH, "container.conf"), WorkspaceID)
-        copy_all_files(plugin_dir, PLUGIN_PATH)
-        copy_all_files(lib_dir, LIB_PATH)
-        copy_all_files(reg_dir, REG_PATH)
-        check_and_create_yaml(yaml_dir, YAML_PATH)
+        copy_all_files(PLUGIN_DIR, PLUGIN_PATH)
+        copy_all_files(LIB_DIR, LIB_PATH)
+        copy_all_files(REG_DIR, REG_PATH)
+        check_and_create_yaml(YAML_DIR, YAML_PATH)
     elif Ensure == 'Absent':
         # and delete CONF file in the directory
-        delete_all_files(conf_dir, CONF_PATH)
+        delete_all_files(CONF_DIR, CONF_PATH)
     else:
         # log error Ensure value not expected
         LG().Log('ERROR', "Ensure value: " + Ensure + " not expected")
@@ -110,18 +108,12 @@ def Test(WorkspaceID, Ensure):
     """
 
     # test for the existence of plugin and conf subfolders in the current plugin
-    plugin_dir = os.path.join(MODULE_RESOURCE_DIR, "plugin")
-    conf_dir = os.path.join(MODULE_RESOURCE_DIR, "conf")
-    lib_dir = os.path.join(MODULE_RESOURCE_DIR, "lib")
-    reg_dir = os.path.join(MODULE_RESOURCE_DIR, "reg")
-    yaml_dir = os.path.join(MODULE_RESOURCE_DIR, "yaml")
-    
     if Ensure == 'Present':
         # check all files exist
-        if (not check_all_files(plugin_dir, PLUGIN_PATH) or not check_all_files(conf_dir, CONF_PATH) or not check_all_files(lib_dir, LIB_PATH) or not check_all_files(reg_dir, REG_PATH) or not check_all_files(yaml_dir, YAML_PATH)):
+        if (not check_all_files(PLUGIN_DIR, PLUGIN_PATH) or not check_all_files(CONF_DIR, CONF_PATH) or not check_all_files(LIB_DIR, LIB_PATH) or not check_all_files(REG_DIR, REG_PATH) or not check_all_files(YAML_DIR, YAML_PATH)):
             return [-1]
     elif Ensure == 'Absent':
-        return [-1];
+        return [-1]
     else:
         # log error Ensure value not expected
         LG().Log('ERROR', "Ensure value: " + Ensure + " not expected")
@@ -155,7 +147,7 @@ def check_and_create_yaml(src, dest):
             if (not os.path.isfile(full_file_name)):
                 shutil.copy(full_file_name, dest)
                 os.chmod(os.path.join(dest, file_name), 0644)
-                os.chown(os.path.join(dest, file_name), GetUID('omsagent'), GetGID('omsagent'))
+                os.chown(os.path.join(dest, file_name), GetUID('omsagent'), GetGID('omiusers'))
     except:
         LG().Log('ERROR', 'copy_all_files failed for src: ' + src + ' dest: ' + dest)
         return False
@@ -211,12 +203,10 @@ def CompareFiles(DestinationPath, SourcePath, Checksum):
         dest_block = 'loopme'
         src_file,src_error = opened_bin_w_error(SourcePath, 'rb')
         if src_error:
-            Print("Exception opening source file " + SourcePath + " Error : " + str(src_error), file=sys.stderr)
             LG().Log('ERROR', "Exception opening source file " + SourcePath + " Error : " + str(src_error))
             return -1
         dest_file, dest_error = opened_bin_w_error(DestinationPath, 'rb')
         if dest_error:
-            Print("Exception opening destination file " + DestinationPath + " Error : " + str(dest_error), file=sys.stderr)
             LG().Log('ERROR', "Exception opening destination file " + DestinationPath + " Error : " + str(dest_error))
             src_file.close()
             return -1
@@ -249,7 +239,6 @@ def GetUID(User):
     try:
         uid = pwd.getpwnam(User)[2]
     except KeyError:
-        Print('ERROR: Unknown UID for ' + User, file=sys.stderr)
         LG().Log('ERROR', 'ERROR: Unknown UID for ' + User)
     return uid
 
@@ -259,7 +248,6 @@ def GetGID(Group):
     try:
         gid = grp.getgrnam(Group)[2]
     except KeyError:
-        Print('ERROR: Unknown GID for ' + Group, file=sys.stderr)
         LG().Log('ERROR', 'ERROR: Unknown GID for ' + Group)
     return gid
 
@@ -272,24 +260,17 @@ def StatFile(path):
     try:
         d = os.stat(path)
     except OSError as error:
-        Print("Exception stating file " + path  + " Error: " + str(error), file=sys.stderr)
         LG().Log('ERROR', "Exception stating file " + path  + " Error: " + str(error))
     except IOError as error:
-        Print("Exception stating file " + path  + " Error: " + str(error), file=sys.stderr)
         LG().Log('ERROR', "Exception stating file " + path  + " Error: " + str(error))
     return d
     
-@contextmanager
-def opened_bin_w_error(filename, mode="rb"):
+def opened_bin_w_error(filename, mode='rb'):
     """
     This context ensures the file is closed.
     """
     try:
         f = open(filename, mode)
-    except IOError as err:
-        yield None, err
-    else:
-        try:
-            yield f, None
-        finally:
-            f.close()
+    except IOError, error:
+        return None, error
+    return f, None
