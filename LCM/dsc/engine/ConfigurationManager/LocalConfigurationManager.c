@@ -64,10 +64,80 @@ static pthread_mutex_t g_TaskQueueMutex;
 static int g_TaskQueueShutdown = 0;
 static int g_TaskQueueExists = 0;
 
+MI_Boolean TaskAllowedToQueue(node)
+{
+    LCMTaskNode* current;
+    pthread_mutex_lock(&g_TaskQueueMutex);
+
+    Context_Invoke_Basic *nodeArgs = node->params;
+    if(nodeArgs == NULL || nodeArgs->methodName == NULL)
+    {
+        DSC_EventWriteMessageRegisteringModule(PAL_T("if(nodeArgs == NULL || args->methodName == NULL)"));
+        return MI_TRUE;
+    }
+    
+    current = g_TaskHead;
+    while (current != NULL)
+    {
+        Context_Invoke_Basic *currentNodeArgs = current->params;
+        if(currentNodeArgs == NULL || currentNodeArgs->methodName == NULL)
+        {
+            DSC_EventWriteMessageRegisteringModule(PAL_T("if(currentNodeArgs == NULL || currentNodeArgs->methodName == NULL)"));
+            current = current->next;
+            continue;
+        }
+
+        DSC_EventWriteMessageRegisteringModule(PAL_T("nodeArgs->methodName"));
+        DSC_EventWriteMessageRegisteringModule(nodeArgs->methodName);
+        DSC_EventWriteMessageRegisteringModule(PAL_T("currentNodeArgs->methodName"));
+        DSC_EventWriteMessageRegisteringModule(currentNodeArgs->methodName);
+
+        // Only one consistency operation can be queued.
+        if(Tcscasecmp(nodeArgs->methodName, PAL_T("PerformRequiredConfigurationChecks")) == 0)
+        {
+            if(Tcscasecmp(currentNodeArgs->methodName, PAL_T("PerformRequiredConfigurationChecks")) == 0)
+            {
+                DSC_EventWriteMessageRegisteringModule(PAL_T("Consistency Run is already queued or being executed."));
+                return MI_FALSE;
+            }
+        }
+        // Only one PerformInventory operation can be queued with same file.
+        // if method name is PerformInventoryOOB or PerformInventory and mof file name is same. 
+        else if(Tcscasecmp(nodeArgs->methodName, PAL_T("PerformInventory")) == 0 || Tcscasecmp(nodeArgs->methodName, PAL_T("PerformInventoryOOB")) == 0)
+        {
+            DSC_EventWriteMessageRegisteringModule(PAL_T("nodeArgs->stringdata"));
+            DSC_EventWriteMessageRegisteringModule(nodeArgs->stringdata);
+            DSC_EventWriteMessageRegisteringModule(PAL_T("currentNodeArgs->stringdata"));
+            DSC_EventWriteMessageRegisteringModule(currentNodeArgs->stringdata);
+
+            if((Tcscasecmp(currentNodeArgs->methodName, PAL_T("PerformInventory")) == 0 || Tcscasecmp(currentNodeArgs->methodName, PAL_T("PerformInventoryOOB")) == 0)
+                && (nodeArgs->stringdata != NULL && currentNodeArgs->stringdata != NULL)
+                && Tcscasecmp(nodeArgs->stringdata , currentNodeArgs->stringdata) == 0)
+                {
+                    DSC_EventWriteMessageRegisteringModule(PAL_T("Inventory operation already queued or being executed for."));
+                    DSC_EventWriteMessageRegisteringModule(nodeArgs->stringdata);
+                    return MI_FALSE;
+                }
+        }
+
+        current = current->next;
+    }
+    pthread_mutex_unlock(&g_TaskQueueMutex);
+
+    return MI_TRUE;
+}
+
 void AddToTaskQueue(LCMTaskNode * node)
 {
     LCMTaskNode* current;
     pthread_mutex_lock(&g_TaskQueueMutex);
+
+    if(!TaskAllowedToQueue(node))
+    {
+        DSC_free(node);
+        return;
+    }
+
     if (g_TaskHead == NULL)
     {
 	g_TaskHead = node;
